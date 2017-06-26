@@ -1,6 +1,7 @@
 
 public class Customer {
     private String customerNo="";
+    private String companyName="";
     private String salutation="";
     private String firstName="";
     private String lastName="";
@@ -29,6 +30,14 @@ public class Customer {
 		this.customerNo = customerNo;
 	}
 
+	public String getCompanyName() {
+		return customerNo;
+	}
+
+
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
+	}
 
 	public String getSalutation() {
 		return salutation;
@@ -210,10 +219,27 @@ public class Customer {
 		this.lastOrderTime = lastOrderTime;
 	}
 
+	
+	
+	public String formatDateTime(String dateTime){
+		if(dateTime != null && dateTime != ""){
+			dateTime = dateTime.substring(0, 19);
+			dateTime = dateTime.replace("T", " ");
+		}
+		return dateTime;
+	}
+	
+	public String formatDate(String date){
+		if(date != null && date != ""){
+			date = date.substring(0,10);
+		}
+		return date;
+	}
+	
 
 	@Override
     public String toString() {
-        return this.customerNo +","+ this.lastName+","+this.firstName + "," + this.salutation +"," + this.email+ "," +this.address1+ "," +this.address2+ "," +this.postbox+","+this.zip+","+this.city+","+this.country+ "," +this.birthday+ "," + this.phone+ "," +this.phoneMobile+ "," +this.customerCardNo+ "," +this.creationDate+ "," +this.checkDateTime+ "," +this.checkResult+ "," +this.lastOrderTime ;
+        return this.customerNo +"|"+ this.lastName+"|"+this.firstName + "|"+this.companyName + "|" + this.salutation +"|" + this.email+ "|" +this.address1+ "|" +this.address2+ "|" +this.postbox+"|"+this.zip+"|"+this.city+"|"+this.country+ "|" +formatDate(this.birthday)+ "|" + this.phone+ "|" +this.phoneMobile+ "|" +this.customerCardNo+ "|" +formatDateTime(this.creationDate)+ "|" +formatDateTime(this.checkDateTime)+ "|" +this.checkResult+ "|" +formatDateTime(this.lastOrderTime) ;
     }
      
 }

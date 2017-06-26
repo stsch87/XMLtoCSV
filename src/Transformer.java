@@ -16,6 +16,7 @@ public class Transformer {
     private static boolean bSalutation;
     private static boolean bFirstName;
     private static boolean bLastName;
+    private static boolean bCompanyName;
     private static boolean bEmail;
     private static boolean bBilling;
     private static boolean bAddress1;
@@ -34,10 +35,7 @@ public class Transformer {
     private static boolean bLastOrderTime;
 	
 	public static void main(String[] args) {
-//       String fileName = "C:\\Users\\schmalstieg\\Documents\\Karstadt-Docs\\Tasks\\offen\\Konsolidierung Adressdaten\\Initial\\customersSplit.xml";
-//	       String fileName = "C:\\Users\\schmalstieg\\Documents\\Karstadt-Docs\\Tasks\\offen\\Konsolidierung Adressdaten\\Initial\\input.xml";
-		 String fileName = "C:\\Users\\schmalstieg\\Documents\\Karstadt-Docs\\Tasks\\offen\\Konsolidierung Adressdaten\\Initial\\customers.xml";
-//	 String fileName = "C:\\Users\\schmalstieg\\Documents\\Karstadt-Docs\\Tasks\\offen\\Konsolidierung Adressdaten\\Initial\\testcustomers.xml";
+		String fileName = "./customers.xml";
 		parseXML(fileName);
     }
  
@@ -49,9 +47,9 @@ public class Transformer {
         	FileOutputStream fos = new FileOutputStream(fout);
          
         	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
-        	bw.write("CustomerNo,LastName,FirstName,Salutation,Email," 
-        	+"Address1,Address2,Postbox,Zip,City,Country,Birthday,Phone,"
-        	+"PhoneMobile,CustomerCardNo,CreationDate,CheckDateTime,CheckResult,LastOrderTime");
+        	bw.write("CustomerNo|LastName|FirstName|CompanyName|Salutation|Email|" 
+        	+"Address1|Address2|Postbox|Zip|City|Country|Birthday|Phone,"
+        	+"PhoneMobile|CustomerCardNo|CreationDate|CheckDateTime|CheckResult|LastOrderTime");
         	bw.newLine();
         	
             XMLStreamReader xmlStreamReader = xmlInputFactory.createXMLStreamReader(new FileInputStream(fileName));
@@ -69,7 +67,11 @@ public class Transformer {
                         bFirstName=true;
                     }else if(xmlStreamReader.getLocalName().equals("last-name")){
                         bLastName=true;
-                    }else if(xmlStreamReader.getLocalName().equals("email")){
+                    }               
+                    else if(xmlStreamReader.getLocalName().equals("company-name")){
+                        bCompanyName=true;
+                    }
+                    else if(xmlStreamReader.getLocalName().equals("email")){
                         bEmail=true;
                     }else if(xmlStreamReader.getLocalName().equals("address") && xmlStreamReader.getAttributeValue(1).equals("true") ){        	
                     		bBilling=true;
@@ -113,6 +115,9 @@ public class Transformer {
                     }else if(bLastName){
                         cus.setLastName(xmlStreamReader.getText().trim());
                         bLastName=false;
+                    }else if(bCompanyName){
+                        cus.setCompanyName(xmlStreamReader.getText().trim());
+                        bCompanyName=false;
                     }else if(bEmail){
                         cus.setEmail(xmlStreamReader.getText().trim());
                         bEmail=false;
