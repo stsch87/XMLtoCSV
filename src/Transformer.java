@@ -33,6 +33,7 @@ public class Transformer {
     private static boolean bCheckDateTime;
     private static boolean bCheckResult;
     private static boolean bLastOrderTime;
+    private static boolean bAddresses;
 	
 	public static void main(String[] args) {
 		String fileName = "./customers.xml";
@@ -47,8 +48,8 @@ public class Transformer {
         	FileOutputStream fos = new FileOutputStream(fout);
          
         	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
-        	bw.write("CustomerNo|LastName|FirstName|CompanyName|Salutation|Email|" 
-        	+"Address1|Address2|Postbox|Zip|City|Country|Birthday|Phone,"
+        	bw.write("CustomerNo|LastName|FirstName|Firma|Salutation|Email|" 
+        	+"Address1|Address2|Postbox|Zip|City|Country|Birthday|Phone|"
         	+"PhoneMobile|CustomerCardNo|CreationDate|CheckDateTime|CheckResult|LastOrderTime");
         	bw.newLine();
         	
@@ -61,17 +62,26 @@ public class Transformer {
                 	if(xmlStreamReader.getLocalName().equals("customer")){
                         cus = new Customer();
                         cus.setCustomerNo(xmlStreamReader.getAttributeValue(0));
-                    }else if(xmlStreamReader.getLocalName().equals("salutation")){
-                        bSalutation=true;
-                    }else if(xmlStreamReader.getLocalName().equals("first-name")){
-                        bFirstName=true;
-                    }else if(xmlStreamReader.getLocalName().equals("last-name")){
-                        bLastName=true;
-                    }               
-                    else if(xmlStreamReader.getLocalName().equals("company-name")){
-                        bCompanyName=true;
+                    }else if(xmlStreamReader.getLocalName().equals("addresses")){
+                    	bAddresses = true;
                     }
-                    else if(xmlStreamReader.getLocalName().equals("email")){
+                    else if(xmlStreamReader.getLocalName().equals("salutation") && !bAddresses){
+                        bSalutation=true;                    
+                    }else if(xmlStreamReader.getLocalName().equals("salutation")&& cus.getSalutation().equals("") && bBilling){
+                    	bSalutation=true;
+                    }else if(xmlStreamReader.getLocalName().equals("first-name")&& !bAddresses){
+                        bFirstName=true;
+                    }else if(xmlStreamReader.getLocalName().equals("first-name")&& cus.getFirstName().equals("") && bBilling){
+                        bFirstName=true;
+                    }else if(xmlStreamReader.getLocalName().equals("last-name")&& !bAddresses){
+                        bLastName=true;
+                    }else if(xmlStreamReader.getLocalName().equals("last-name")&& cus.getLastName().equals("") && bBilling){
+                        bLastName=true;
+                    }else if(xmlStreamReader.getLocalName().equals("company-name")&& !bAddresses){
+                        bCompanyName=true;
+                    }else if(xmlStreamReader.getLocalName().equals("company-name") && cus.getCompanyName().equals("") && cus.getSalutation().equals("Firma") && bBilling ){
+                        bCompanyName=true;
+                    }else if(xmlStreamReader.getLocalName().equals("email")){
                         bEmail=true;
                     }else if(xmlStreamReader.getLocalName().equals("address") && xmlStreamReader.getAttributeValue(1).equals("true") ){        	
                     		bBilling=true;
@@ -168,6 +178,9 @@ public class Transformer {
                 case XMLStreamConstants.END_ELEMENT:
                     if(xmlStreamReader.getLocalName().equals("address") && bBilling){
                     	bBilling=false;
+                    }
+                    if(xmlStreamReader.getLocalName().equals("addresses")){
+                    	bAddresses=false;
                     }
                 	if(xmlStreamReader.getLocalName().equals("customer")){
                      //   System.out.println(cus.toString());

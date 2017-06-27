@@ -31,7 +31,7 @@ public class Customer {
 	}
 
 	public String getCompanyName() {
-		return customerNo;
+		return companyName;
 	}
 
 
