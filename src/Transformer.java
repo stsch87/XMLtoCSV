@@ -34,6 +34,7 @@ public class Transformer {
     private static boolean bCheckResult;
     private static boolean bLastOrderTime;
     private static boolean bAddresses;
+    private static boolean bTitle;
 	
 	public static void main(String[] args) {
 		String fileName = "./customers.xml";
@@ -48,7 +49,7 @@ public class Transformer {
         	FileOutputStream fos = new FileOutputStream(fout);
          
         	BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(fos));
-        	bw.write("CustomerNo|LastName|FirstName|Firma|Salutation|Email|" 
+        	bw.write("CustomerNo|LastName|FirstName|Titel|Firma|Salutation|Email|" 
         	+"Address1|Address2|Postbox|Zip|City|Country|Birthday|Phone|"
         	+"PhoneMobile|CustomerCardNo|CreationDate|CheckDateTime|CheckResult|LastOrderTime");
         	bw.newLine();
@@ -64,6 +65,9 @@ public class Transformer {
                         cus.setCustomerNo(xmlStreamReader.getAttributeValue(0));
                     }else if(xmlStreamReader.getLocalName().equals("addresses")){
                     	bAddresses = true;
+                    }
+                    else if(xmlStreamReader.getLocalName().equals("title") && !bAddresses){
+                        bTitle=true;                    
                     }
                     else if(xmlStreamReader.getLocalName().equals("salutation") && !bAddresses){
                         bSalutation=true;                    
@@ -119,6 +123,18 @@ public class Transformer {
                     if(bSalutation){
                         cus.setSalutation(xmlStreamReader.getText().trim());
                         bSalutation=false;
+                    }if(bTitle){
+                        String tit = xmlStreamReader.getText().trim();
+                        if(tit.equals("Dr.")){
+                        	cus.setTitle("9");
+                        }else if(tit.equals("Prof.")){
+                        	cus.setTitle("49");
+                        }else if(tit.equals("Prof. Dr.")){
+                        	cus.setTitle("153");
+                        }else{
+                        	cus.setTitle("0");
+                        }                        
+                        bTitle=false;
                     }else if(bFirstName){
                         cus.setFirstName(xmlStreamReader.getText().trim());
                         bFirstName=false;

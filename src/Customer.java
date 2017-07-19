@@ -2,6 +2,7 @@
 public class Customer {
     private String customerNo="";
     private String companyName="";
+    private String title="";
     private String salutation="";
     private String firstName="";
     private String lastName="";
@@ -25,7 +26,6 @@ public class Customer {
 		return customerNo;
 	}
 
-
 	public void setCustomerNo(String customerNo) {
 		this.customerNo = customerNo;
 	}
@@ -37,6 +37,14 @@ public class Customer {
 
 	public void setCompanyName(String companyName) {
 		this.companyName = companyName;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public String getSalutation() {
@@ -239,7 +247,7 @@ public class Customer {
 
 	@Override
     public String toString() {
-        return this.customerNo +"|"+ this.lastName+"|"+this.firstName + "|"+this.companyName + "|" + this.salutation +"|" + this.email+ "|" +this.address1+ "|" +this.address2+ "|" +this.postbox+"|"+this.zip+"|"+this.city+"|"+this.country+ "|" +formatDate(this.birthday)+ "|" + this.phone+ "|" +this.phoneMobile+ "|" +this.customerCardNo+ "|" +formatDateTime(this.creationDate)+ "|" +formatDateTime(this.checkDateTime)+ "|" +this.checkResult+ "|" +formatDateTime(this.lastOrderTime) ;
+        return this.customerNo +"|"+ this.lastName+"|"+this.firstName +"|"+this.title +"|"+this.companyName + "|" + this.salutation +"|" + this.email+ "|" +this.address1+ "|" +this.address2+ "|" +this.postbox+"|"+this.zip+"|"+this.city+"|"+this.country+ "|" +formatDate(this.birthday)+ "|" + this.phone+ "|" +this.phoneMobile+ "|" +this.customerCardNo+ "|" +formatDateTime(this.creationDate)+ "|" +formatDateTime(this.checkDateTime)+ "|" +this.checkResult+ "|" +formatDateTime(this.lastOrderTime) ;
     }
      
 }
